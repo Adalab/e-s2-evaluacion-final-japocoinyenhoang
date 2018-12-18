@@ -6,8 +6,11 @@
   "score":17.315649,
   "show":
       {
-      "id":139,"url":"http://www.tvmaze.com/shows/139/girls",
-      "name":"Girls","type":"Scripted","language":"English",
+      "id":139,
+      "url":"http://www.tvmaze.com/shows/139/girls",
+      "name":"Girls",
+      "type":"Scripted",
+      "language":"English",
       "genres":["Drama","Romance"],
       "status":"Ended","runtime":30,
       "premiered":"2012-04-15",
