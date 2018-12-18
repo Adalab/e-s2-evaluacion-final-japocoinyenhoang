@@ -40,9 +40,9 @@ function search() {
             // iniciamelo con uno vacio
             savedSeries = [];
           } else {
+            let seriesList = document.querySelectorAll('result__item');
             savedSeries = JSON.parse(seriesList);
             let changeID = (parseInt(serie.show.id));
-            let seriesList = document.querySelectorAll('result__item');
             // sino para cada elemento del array de favoritos, pintamelos en pantalla
             if (savedSeries.includes(changeID) === true) {
               seriesList.classList.add('favorite__item');
@@ -51,6 +51,7 @@ function search() {
           }
           return savedSeries;
         };
+        getSeriesData();
 
 
         //llamamos a la funcionde guardar en localStorage
@@ -78,12 +79,11 @@ const saveLocalStorage = (serie) => {
 const addFavorite = (e) => {
   const serieItem = e.currentTarget;
   serieItem.classList.toggle('favorite__item');
-  const seriesId = parseInt(serieItem.getAttribute('data-id'));
   const resultItem = document.querySelector('.result__item');
   const resultItemId = resultItem.id;
   const favouriteId = parseInt(resultItemId).innerHTML;
   if (savedSeries.includes(favouriteId)) {
-    savedSeries.splice(savedSeries.indexOf(favouriteId), 1);
+    savedSeries.splice(savedSeries.indexOf(favouriteId)+1);
   } else {
     // con el push le decimos que suba lo que hay en el parametro al array savedSeries
     savedSeries.push(favouriteId);
