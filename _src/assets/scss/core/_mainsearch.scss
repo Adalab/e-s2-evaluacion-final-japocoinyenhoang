@@ -1,36 +1,61 @@
 .container {
-  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin: 30px auto;
 }
 
 .search {
-  background-color:yellow;
-
-}
-
-.search__text {
-  background-color: green;
-
+  margin: 10px auto;
 }
 
 #search__text {
-
+  min-width: 400px;
+  font-size: 18px;
+  padding: 5px;
+  border: 0;
+  border-bottom: 1px solid black;
 }
 
 .btn {
   background-color: purple;
+  padding: 10px 20px;
+  color: white;
+  font-size: 20px;
+  border-radius: 5px;
+  border-style: hidden;
 }
 
 .result__container {
-
-  background-color: lightblue;
-
-  border: 2px solid blue;
-
-
+  width: 100vw;
 }
 
-.result__list {}
+.result__list {
+  display: flex;
+  margin: 15px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+}
 
-.result__element--container{
-background-color: indianred;
+.result__item--container {
+  display: flex;
+  text-align: center;
+  background-color: rgb(236, 149, 149);
+  margin: 15px;
+  color: rgb(185, 27, 80);
+  font-size: 25px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.result__item {
+  min-width: 300px;
+  padding-top: 20px;
+}
+
+.favorite__item {
+  background-color: aquamarine;
 }
