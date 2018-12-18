@@ -13,7 +13,6 @@ function search() {
     .then(res => res.json())
     .then(data => {
       destination.innerHTML='';
-      console.log(data);
       for (let serie of data) {
         let finalImage;
         if (serie.show.image){
@@ -23,7 +22,6 @@ function search() {
         }else{
           finalImage='https://via.placeholder.com/210x295/cccccc/666666/?text=TV';
         }
-        console.log (serie.show);
         destination.innerHTML += `
         <div class="result__item--container">
           <i class="favourite__icon fas fa-heart"></i>
@@ -35,51 +33,34 @@ function search() {
 
         //almacenar la información de favoritos en el localStorage.
         const saveLocalStorage = () => {
-
-          localStorage.setItem('lovedSeries', JSON.stringify(savedSeries));
-          savedSeries = JSON.parse(localStorage.getItem('lovedSeries'));
+          localStorage.setItem('lovedSeries',JSON.stringify(savedSeries));
+          let saved = JSON.parse(localStorage.getItem('lovedSeries'));
+          console.log(saved);
           // si el array de favoritos esta vacio:
           if (savedSeries === null) {
             // iniciamelo con uno vacio
             savedSeries = [];
-
           } else {
+            let changeID=(parseInt(serie.show.id));
             let seriesList = document.querySelectorAll('result__item');
             // sino para cada elemento del array de favoritos, pintamelos en pantalla
-            if (savedSeries.contains(parseInt(serie.show.id))) {
+            if (savedSeries.includes(changeID)===true) {
               seriesList.classList.add('favorite__item');
               seriesList.classList.remove('nofavourite__item');
             }
           }
         };
        saveLocalStorage();
-        select();
       }
     });
 }
 searchButton.addEventListener('click', search);
 
-function select(){
-  // cuando pinchamos en el contenedor de la serie
-  let seriesList=document.querySelectorAll('result__item');
-  for (const item of seriesList) {
-    // savedSeries.push();   //en el parametro, incluir lo que quiero que se mande al array, en este caso los favoritos
-    savedSeries.push(item);
-    return item;
-  }
-}
-select.addEtventListener('click', addFavorite);
-
-
-
-
-
-
 // Funcion favoritos  //mirarlo con lupa para entenderlo
-function addFavorite(e) {
-  const favoriteSerie = e.currentTarget;
-  lovedSeries = parseInt(favoriteSerie.getAttribute('data-id'));
-  favoriteSerie.classList.toggle('favorite__item');
+const addFavorite=(e)=>{
+  const serieItem=e.currentTarget;
+  serieItem.classList.toggle('favorite__item');
+  // const seriesId= parseInt(serieItem.getAttribute('data-id'));
   const resultItem = document.querySelector('.result__item');
   const resultItemId = resultItem.id;
   const favouriteId = parseInt(resultItemId).innerHTML;
@@ -92,26 +73,13 @@ function addFavorite(e) {
   }
   localStorage.setItem('series', JSON.stringify(savedSeries));
 
-}
+};
 
+// const ListContainer=document.querySelector('');
+// for (const choosen of ListContainer){
+//   return choosen;
 
-
-
-
-
-
-
-
-
-
-// const seriesList=document.querySelectorAll('result__item');
-
-// cont addFavorite=(e)=>{
-//   const serieItem=e.currentTarget;
-//   serieItem.classList.toggle('favorite__item');
-// };
-
-// seriesList.addEventListener('click',addFavorite);
+// .addEventListener('click',addFavorite);
 
 
 // incluimos un titulo en el header
