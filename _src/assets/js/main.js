@@ -5,22 +5,22 @@ const searchButton = document.querySelector('.search__btn');
 const destination = document.querySelector('.result__list');
 
 //array donde vamos a guardar los favoritos
-let savedSeries=[];
+let savedSeries = [];
 
 // funcion para buscar las series
 function search() {
   fetch(`http://api.tvmaze.com/search/shows?q=${toSearch.value}`)
     .then(res => res.json())
     .then(data => {
-      destination.innerHTML='';
+      destination.innerHTML = '';
       for (let serie of data) {
         let finalImage;
-        if (serie.show.image){
-          if (serie.show.image.medium){
-            finalImage=serie.show.image.medium;
+        if (serie.show.image) {
+          if (serie.show.image.medium) {
+            finalImage = serie.show.image.medium;
           }
-        }else{
-          finalImage='https://via.placeholder.com/210x295/cccccc/666666/?text=TV';
+        } else {
+          finalImage = 'https://via.placeholder.com/210x295/cccccc/666666/?text=TV';
         }
         destination.innerHTML += `
         <div class="result__item--container">
@@ -31,36 +31,54 @@ function search() {
           </li>
         </div>`;
 
-        //almacenar la información de favoritos en el localStorage.
-        const saveLocalStorage = () => {
-          localStorage.setItem('lovedSeries',JSON.stringify(savedSeries));
+        //consultamos que no este ya en favoritos,
+        const getSeriesData = () => {
+          let seriesList = localStorage.getItem('saveLocalStorage');
           let saved = JSON.parse(localStorage.getItem('lovedSeries'));
-          console.log(saved);
           // si el array de favoritos esta vacio:
-          if (savedSeries === null) {
+          if (seriesList === null) {
             // iniciamelo con uno vacio
             savedSeries = [];
           } else {
-            let changeID=(parseInt(serie.show.id));
+            savedSeries = JSON.parse(seriesList);
+            let changeID = (parseInt(serie.show.id));
             let seriesList = document.querySelectorAll('result__item');
             // sino para cada elemento del array de favoritos, pintamelos en pantalla
-            if (savedSeries.includes(changeID)===true) {
+            if (savedSeries.includes(changeID) === true) {
               seriesList.classList.add('favorite__item');
               seriesList.classList.remove('nofavourite__item');
             }
           }
+          return savedSeries;
         };
-       saveLocalStorage();
+
+
+        //llamamos a la funcionde guardar en localStorage
+        saveLocalStorage(serie);
       }
     });
 }
 searchButton.addEventListener('click', search);
 
+
+
+
+
+
+//cada vez que le damos a favorito almacenamos los datos de favoritos en localstorage
+// //almacenar la información de favoritos en el localStorage.
+
+const saveLocalStorage = (serie) => {
+  localStorage.setItem('lovedSeries', JSON.stringify(serie));
+};
+
+
+
 // Funcion favoritos  //mirarlo con lupa para entenderlo
-const addFavorite=(e)=>{
-  const serieItem=e.currentTarget;
+const addFavorite = (e) => {
+  const serieItem = e.currentTarget;
   serieItem.classList.toggle('favorite__item');
-  // const seriesId= parseInt(serieItem.getAttribute('data-id'));
+  const seriesId = parseInt(serieItem.getAttribute('data-id'));
   const resultItem = document.querySelector('.result__item');
   const resultItemId = resultItem.id;
   const favouriteId = parseInt(resultItemId).innerHTML;
@@ -75,17 +93,11 @@ const addFavorite=(e)=>{
 
 };
 
-// const ListContainer=document.querySelector('');
-// for (const choosen of ListContainer){
-//   return choosen;
-
-// .addEventListener('click',addFavorite);
-
 
 // incluimos un titulo en el header
-const headerText=document.querySelector('.page__header');
-headerText.innerHTML=`<h1 class="header__text">Buscador de series</h1>`;
+const headerText = document.querySelector('.page__header');
+headerText.innerHTML = `<h1 class="header__text">Buscador de series</h1>`;
 
 // añadimos un placeholder y su valor en el input
-toSearch.setAttribute('placeholder','buscador');
+toSearch.setAttribute('placeholder', 'buscador');
 
