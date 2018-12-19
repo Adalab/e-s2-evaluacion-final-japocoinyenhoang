@@ -3,6 +3,8 @@
 const toSearch = document.getElementById('search__text');
 const searchButton = document.querySelector('.search__btn');
 const destination = document.querySelector('.result__list');
+const resultItemNumber= document.querySelector('.result__lengh');
+
 
 //array donde vamos a guardar los favoritos
 let savedSeries = [];
@@ -13,6 +15,8 @@ function search() {
     .then(res => res.json())
     .then(data => {
       destination.innerHTML = '';
+      resultItemNumber.innerHTML=`El número de series encontradas es : ${data.length}`;
+
       for (let serie of data) {
         let finalImage;
         if (serie.show.image) {
@@ -27,7 +31,7 @@ function search() {
           <i class="favourite__icon fas fa-heart"></i>
           <li class="result__item nofavourite__item" data-id="${serie.show.id}">
             <img class="result__item--image" src="${finalImage}" alt="${serie.show.name}">
-            <p class="result__item--title">${serie.show.name}</p>
+            <p class="result__item--title">${serie.show.name}</p><p class ="result__gen">${serie.show.genres}</p>
           </li>
         </div>`;
 
@@ -60,6 +64,17 @@ function search() {
     });
 }
 searchButton.addEventListener('click', search);
+
+function hr() {
+  if (destination.classList.contains('hidden')) {
+    destination.classList.remove('hidden');
+
+  } else {
+    destination.classList.add('hidden');
+
+  }
+}
+resultItemNumber.addEventListener('click', hr);
 
 
 
@@ -100,4 +115,6 @@ headerText.innerHTML = `<h1 class="header__text">Buscador de series</h1>`;
 
 // añadimos un placeholder y su valor en el input
 toSearch.setAttribute('placeholder', 'buscador');
+
+
 
